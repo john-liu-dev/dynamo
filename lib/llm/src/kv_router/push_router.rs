@@ -2175,12 +2175,7 @@ mod tests {
             .unwrap();
         assert!(
             router
-                .dispatch_selection(
-                    failed_request,
-                    failed_selection,
-                    failed_dispatch_guard,
-                    true,
-                )
+                .dispatch_selection(failed_request, failed_selection, failed_dispatch_guard,)
                 .await
                 .is_err()
         );
