@@ -1375,7 +1375,6 @@ mod tests {
             16,
             workers,
             KvRouterConfig::default(),
-            WORKER_TYPE_DECODE,
             graph.scheduler_load_sender(),
             graph.cancellation_token(),
         )
@@ -1453,7 +1452,6 @@ mod tests {
             16,
             workers,
             KvRouterConfig::default(),
-            WORKER_TYPE_DECODE,
             graph.scheduler_load_sender(),
             graph.cancellation_token(),
         )
@@ -1645,7 +1643,6 @@ mod tests {
                         16,
                         workers,
                         KvRouterConfig::default(),
-                        WORKER_TYPE_DECODE,
                         graph.scheduler_load_sender(),
                         graph.cancellation_token(),
                     )
@@ -1852,11 +1849,12 @@ mod tests {
             .unwrap()
             .endpoint("generate".to_string());
         let client = endpoint.client().await.unwrap();
+        let graph = test_graph(&client).await;
         endpoint.register_endpoint_instance().await.unwrap();
         let worker_id = client.wait_for_instances().await.unwrap()[0].id();
         let dispatch = Arc::new(CompletedBuiltinDispatch::default());
         let inner = PushRouter::from_client_with_dispatch(
-            client,
+            client.clone(),
             RouterMode::LeastLoaded,
             Arc::clone(&dispatch) as Arc<dyn StreamingDispatch<_, _>>,
         )
@@ -1869,13 +1867,15 @@ mod tests {
             16,
             workers,
             KvRouterConfig::default(),
-            WORKER_TYPE_DECODE,
+            graph.scheduler_load_sender(),
+            graph.cancellation_token(),
         )
         .await
         .unwrap();
         let affinity = AffinityCoordinator::new(Duration::from_secs(10)).unwrap();
         let host = RoutingHost::<DefaultWorkerSelector>::new_builtin_with_coordinator(
             inner,
+            graph,
             Some(load_state.clone()),
             Some(affinity.clone()),
         )
