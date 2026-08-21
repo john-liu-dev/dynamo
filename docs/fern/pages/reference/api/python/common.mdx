@@ -1553,7 +1553,7 @@ NixlReadEmbeddingReceiver(embedding_hidden_size: int = 8 * 1024, max_item_mm_tok
 Uses nixl_connect.Connector which now natively provides a shared singleton
 Connection (NIXL agent) and reference-counted Remote agent lifecycle.
 
-[`components/src/dynamo/common/multimodal/embedding_transfer.py#L852`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L852)
+[`components/src/dynamo/common/multimodal/embedding_transfer.py#L908`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L908)
 
 **Public methods**
 
@@ -1565,7 +1565,7 @@ __init__(embedding_hidden_size: int = 8 * 1024, max_item_mm_token: int = 1024, m
 
 No summary available.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L859)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L915)
 
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlreadembeddingreceiver-receive-embeddings">receive_embeddings</h4>
 
@@ -1586,7 +1586,7 @@ The TransferRequest object containing information to receive embeddings for.
 - `int` — A tuple containing the tensor ID and the received embeddings as a torch.Tensor.
 - `torch.Tensor` — Caller should invoke release_tensor(tensor_id) when the tensor is no longer needed to free up resources.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L883)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L939)
 
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlreadembeddingreceiver-release-tensor">release_tensor</h4>
 
@@ -1602,7 +1602,7 @@ Indicate that the tensor associated with the ID is no longer in use.
 The ID of the tensor to release.
 </ParamField>
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L942)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L998)
 </Accordion>
 
 <Accordion id="api-dynamo-common-multimodal-embedding-transfer-nixlreadembeddingsender" title="NixlReadEmbeddingSender (class)">
@@ -1619,7 +1619,7 @@ NixlReadEmbeddingSender()
 Uses nixl_connect.Connector which now natively provides a shared singleton
 Connection (NIXL agent) and reference-counted Remote agent lifecycle.
 
-[`components/src/dynamo/common/multimodal/embedding_transfer.py#L795`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L795)
+[`components/src/dynamo/common/multimodal/embedding_transfer.py#L851`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L851)
 
 **Public methods**
 
@@ -1631,7 +1631,7 @@ __init__()
 
 No summary available.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L802)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L858)
 
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlreadembeddingsender-send-embeddings">send_embeddings</h4>
 
@@ -1653,7 +1653,7 @@ A boolean indicating whether the embeddings should be staged for the transfer,
 Returns:
 A tuple containing the TransferRequest object and an awaitable that can be awaited to indicate the send is completed.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L806)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L862)
 </Accordion>
 
 <Accordion id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingreceiver" title="NixlWriteEmbeddingReceiver (class)">
@@ -1667,7 +1667,7 @@ from dynamo.common.multimodal import NixlWriteEmbeddingReceiver
 NixlWriteEmbeddingReceiver(buffer_size = 2 * 8 * 1024 * 1024 * 256 * 2)
 ```
 
-[`components/src/dynamo/common/multimodal/embedding_transfer.py#L635`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L635)
+[`components/src/dynamo/common/multimodal/embedding_transfer.py#L643`](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L643)
 
 **Public methods**
 
@@ -1679,7 +1679,17 @@ __init__(buffer_size = 2 * 8 * 1024 * 1024 * 256 * 2)
 
 No summary available.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L642)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L650)
+
+<h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingreceiver-close">close</h4>
+
+```python
+close() -> None
+```
+
+Stop receiver progress and cancel any unfinished transfers.
+
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L690)
 
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingreceiver-receive-embeddings">receive_embeddings</h4>
 
@@ -1703,7 +1713,7 @@ Maximum time to wait for the transfer to complete before raising a TimeoutError.
 - `int` — A tuple containing the tensor ID and the received embeddings as a torch.Tensor.
 - `torch.Tensor` — Caller should invoke release_tensor(tensor_id) when the tensor is no longer needed to free up resources.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L666)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L722)
 
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingreceiver-release-tensor">release_tensor</h4>
 
@@ -1719,7 +1729,7 @@ Indicate that the tensor associated with the ID is no longer in use.
 The ID of the tensor to release.
 </ParamField>
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L784)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L840)
 </Accordion>
 
 <Accordion id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingsender" title="NixlWriteEmbeddingSender (class)">
@@ -1769,6 +1779,16 @@ No summary available.
 
 [source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L402)
 
+<h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingsender-close">close</h4>
+
+```python
+close() -> None
+```
+
+Stop the background progress task during an orderly worker shutdown.
+
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L436)
+
 <h4 id="api-dynamo-common-multimodal-embedding-transfer-nixlwriteembeddingsender-send-embeddings">send_embeddings</h4>
 
 ```python
@@ -1789,7 +1809,7 @@ A boolean indicating whether the embeddings should be staged for the transfer,
 Returns:
 A tuple containing the TransferRequest object and an awaitable that can be awaited to indicate the send is completed.
 
-[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L587)
+[source](https://github.com/ai-dynamo/dynamo/blob/main/components/src/dynamo/common/multimodal/embedding_transfer.py#L595)
 </Accordion>
 
 <Accordion id="api-dynamo-common-protocols-video-protocol-nvcreatevideorequest" title="NvCreateVideoRequest (class)">
